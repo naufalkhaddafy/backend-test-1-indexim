@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Console\View\Components\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -44,5 +46,35 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+    public function leaders()
+    {
+        return $this->belongsToMany(User::class, 'leaders', 'leader_id', 'user_id');
+    }
+
+    public function subordinates()
+    {
+        return $this->belongsToMany(User::class, 'leaders', 'user_id', 'leader_id');
+    }
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
+
+    public function attendaces()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function report_tasks()
+    {
+        return $this->hasMany(ReportTask::class);
     }
 }

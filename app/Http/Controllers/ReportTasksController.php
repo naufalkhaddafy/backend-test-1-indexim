@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\ReportTasks;
+use App\Http\Requests\StoreReportTasksRequest;
+use App\Http\Requests\UpdateReportTasksRequest;
 
-class EmployeeController extends Controller
+class ReportTasksController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +27,7 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreReportTasksRequest $request)
     {
         //
     }
@@ -33,7 +35,7 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(ReportTasks $reportTasks)
     {
         //
     }
@@ -41,7 +43,7 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(ReportTasks $reportTasks)
     {
         //
     }
@@ -49,7 +51,7 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateReportTasksRequest $request, ReportTasks $reportTasks)
     {
         //
     }
@@ -57,7 +59,7 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(ReportTasks $reportTasks)
     {
         //
     }
