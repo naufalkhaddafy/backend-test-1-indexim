@@ -13,7 +13,15 @@ class ShiftController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $allShift = Shift::all();
+            return response()->json([
+                'status' => 'success',
+                'data' => $allShift,
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -30,6 +38,27 @@ class ShiftController extends Controller
     public function store(StoreShiftRequest $request)
     {
         //
+        try {
+            $start = strtotime($request->start_at);
+            $end = strtotime($request->end_at);
+            $total_hours = $end - $start;
+
+            $shift = new Shift();
+            $shift->name = $request->name;
+            $shift->start_at = $request->start_at;
+            $shift->end_at = $request->end_at;
+            $shift->description = $request->description;
+            $shift->total_hours = round($total_hours / 3600);
+            $shift->save();
+
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $shift,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
     }
 
     /**

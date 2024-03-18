@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('department')->nullable();
             $table->string('position')->nullable();
+            $table->foreignId('shift_id')->nullable()->nullable()->constrained('shifts')->cascadeOnUpdate();
             $table->timestamps();
         });
     }

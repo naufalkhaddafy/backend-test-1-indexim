@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->dateTime('start_attendance');
-            $table->dateTime('end_attendance')->nullable();
+            $table->dateTime('start_at');
+            $table->dateTime('end_at')->nullable();
             $table->string('description')->nullable();
             $table->string('total_primary')->nullable();
             $table->string('total_overtime')->nullable();

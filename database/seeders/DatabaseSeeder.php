@@ -14,8 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
-
         User::create([
             'name' => 'admin',
             'username' => 'admin',
@@ -24,5 +22,7 @@ class DatabaseSeeder extends Seeder
             'nrp' => '13028',
             'password' => Hash::make('admin'),
         ]);
+
+        User::factory(10)->create();
     }
 }

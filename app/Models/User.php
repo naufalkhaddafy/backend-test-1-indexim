@@ -58,9 +58,9 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'leaders', 'user_id', 'leader_id');
     }
 
-    public function shifts()
+    public function shift()
     {
-        return $this->hasMany(Shift::class);
+        return $this->belongsTo(Shift::class);
     }
 
     public function attendaces()
