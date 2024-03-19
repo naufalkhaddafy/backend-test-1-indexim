@@ -14,11 +14,16 @@ class ShiftController extends Controller
     public function index()
     {
         try {
+            // $search = $request->search;
+            // $allShift = Shift::query()->whereAny(['name',''],'like','%' . Request()->search . '%');
             $allShift = Shift::all();
-            return response()->json([
-                'status' => 'success',
-                'data' => $allShift,
-            ], 200);
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'data' => $allShift,
+                ],
+                200,
+            );
         } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
@@ -51,11 +56,13 @@ class ShiftController extends Controller
             $shift->total_hours = round($total_hours / 3600);
             $shift->save();
 
-
-            return response()->json([
-                'status' => 'success',
-                'data' => $shift,
-            ], 200);
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'data' => $shift,
+                ],
+                200,
+            );
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
         }
@@ -66,7 +73,7 @@ class ShiftController extends Controller
      */
     public function show(Shift $shift)
     {
-        //
+
     }
 
     /**
@@ -80,9 +87,31 @@ class ShiftController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateShiftRequest $request, Shift $shift)
+    public function update(StoreShiftRequest $request, Shift $shift)
     {
         //
+        try {
+            $start = strtotime($request->start_at);
+            $end = strtotime($request->end_at);
+            $total_hours = $end - $start;
+
+            $shift->name = $request->name;
+            $shift->start_at = $request->start_at;
+            $shift->end_at = $request->end_at;
+            $shift->description = $request->description;
+            $shift->total_hours = round($total_hours / 3600);
+            $shift->save();
+
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'data' => $shift,
+                ],
+                200,
+            );
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
     }
 
     /**
@@ -90,6 +119,17 @@ class ShiftController extends Controller
      */
     public function destroy(Shift $shift)
     {
-        //
+        try {
+            $shift->delete();
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'data' => $shift,
+                ],
+                200,
+            );
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
     }
 }

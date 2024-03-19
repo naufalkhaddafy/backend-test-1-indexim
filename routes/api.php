@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ShiftController;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +20,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/user/{user}/delete', [AuthController::class, 'destroy']);
 
     //Shift
-    Route::resource('shift', ShiftController::class);
+    Route::resource('shift', ShiftController::class,['only' => ['index', 'store', 'update', 'destroy']]);
+    // Attendance
+    Route::resource('attendence', AttendanceController::class,['only' => ['index', 'store', 'update', 'destroy']]);
+
 });
 
 
