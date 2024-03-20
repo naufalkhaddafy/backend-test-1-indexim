@@ -17,45 +17,6 @@ class AuthController extends Controller
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function register(StoreUserRequest $request)
-    {
-
-        $user = User::create([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'nrp' => $request->nrp,
-            'role' => $request->role ?? false,
-            'image' => $request->image,
-            'department' => $request->department,
-            'position' => $request->position,
-            'shift_id' => $request->shift_id,
-            'password' => Hash::make($request->password)
-        ]);
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-        return response()
-            ->json([
-                'status' => 'success',
-                'data' => $user,
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-            ], 200);
-    }
-
-    public function user()
-    {
-        try {
-            $allUser = User::all();
-            return response()->json([
-                'status' => 'success',
-                'data' => $allUser,
-            ], 200);
-        } catch (\Throwable $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
-    }
-
     public function login(Request $request)
     {
         try {
@@ -114,17 +75,77 @@ class AuthController extends Controller
         }
     }
 
+    public function user()
+    {
+        try {
+            $allUser = User::all();
+            return response()->json([
+                'status' => 'success',
+                'data' => $allUser,
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function register(StoreUserRequest $request)
+    {
+        $user = User::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'nrp' => $request->nrp,
+            'role' => $request->role ?? false,
+            'image' => $request->image,
+            'department' => $request->department,
+            'position' => $request->position,
+            'shift_id' => $request->shift_id,
+            'password' => Hash::make($request->password)
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()
+            ->json([
+                'status' => 'success',
+                'data' => $user,
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ], 200);
+    }
+
+    public function update(StoreUserRequest $request,User $user)
+    {
+         $user->update([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'nrp' => $request->nrp,
+            'role' => $request->role ?? false,
+            'image' => $request->image,
+            'department' => $request->department,
+            'position' => $request->position,
+            'shift_id' => $request->shift_id,
+            'password' => Hash::make($request->password)
+        ]);
+
+        return response()
+            ->json([
+                'status' => 'success',
+                'data' => $user,
+            ], 200);
+    }
+
     public function destroy(User $user)
     {
         try {
             $user->delete();
             return response()->json([
                 'status' => 'success',
-                'message' => 'You have successfully delete user ' . $user->name
+                'data' => $user
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
-                'erorr' => $th->getMessage(),
+                'error' => $th->getMessage(),
             ]);
         }
     }

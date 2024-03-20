@@ -16,6 +16,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/user', [AuthController::class, 'register']);
+    Route::patch('/user/{user}', [AuthController::class, 'update']);
     Route::delete('/user/{user}/delete', [AuthController::class, 'destroy']);
 
     //Shift
