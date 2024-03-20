@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -16,27 +17,19 @@ class AuthController extends Controller
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function register(Request $request)
+    public function register(StoreUserRequest $request)
     {
-        $validator =  Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:5'
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'success' => false,
-                'error' =>
-                $validator->errors()->toArray()
-            ], 400);
-        }
 
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'nrp' => $request->nrp,
+            'role' => $request->role ?? false,
+            'image' => $request->image,
+            'department' => $request->department,
+            'position' => $request->position,
+            'shift_id' => $request->shift_id,
             'password' => Hash::make($request->password)
         ]);
 
