@@ -88,6 +88,20 @@ class AuthController extends Controller
         }
     }
 
+    public function userShow(User $user)
+    {
+        try {
+            $user = User::with('shift', 'attendances', 'tasks', 'report_tasks')->find($user);
+            //$user->with('shift', 'attendaces', 'tasks', 'report_tasks');
+            return response()->json([
+                'status' => 'success',
+                'data' => $user,
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
     public function register(StoreUserRequest $request)
     {
         $user = User::create([
@@ -113,9 +127,9 @@ class AuthController extends Controller
             ], 200);
     }
 
-    public function update(StoreUserRequest $request,User $user)
+    public function update(StoreUserRequest $request, User $user)
     {
-         $user->update([
+        $user->update([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,

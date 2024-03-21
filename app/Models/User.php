@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Illuminate\Console\View\Components\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -63,7 +62,7 @@ class User extends Authenticatable
         return $this->belongsTo(Shift::class);
     }
 
-    public function attendaces()
+    public function attendances()
     {
         return $this->hasMany(Attendance::class);
     }
