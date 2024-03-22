@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            ShiftSeeder::class,
+        ]);
+
         User::create([
             'name' => 'admin',
             'username' => 'admin',

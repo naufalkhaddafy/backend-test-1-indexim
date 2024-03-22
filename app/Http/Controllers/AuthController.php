@@ -79,10 +79,13 @@ class AuthController extends Controller
     {
         try {
             $allUser = User::all();
-            return response()->json([
-                'status' => 'success',
-                'data' => $allUser,
-            ], 200);
+
+            if (Request()->wantsJson()) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => $allUser,
+                ], 200);
+            }
         } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
@@ -162,5 +165,30 @@ class AuthController extends Controller
                 'error' => $th->getMessage(),
             ]);
         }
+    }
+
+    public function LoginWeb(Request $request)
+    {
+        $validatelogin = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ], [
+            'username.required' => 'Username Harus di Isi',
+            'password.required' => 'Password harus di Isi',
+        ]);
+        if (Auth::attempt($validatelogin)) {
+            $request->session()->regenerate();
+            return redirect()->intended('dashboard');
+        }
+        return back()->with('gagal', 'Periksa Kembali Username dan Password');
+    }
+    // Logout user
+    public function logoutWeb(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+        // Auth::logout();
     }
 }

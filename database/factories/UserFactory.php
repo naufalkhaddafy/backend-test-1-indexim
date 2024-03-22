@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Shift;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -28,11 +29,12 @@ class UserFactory extends Factory
             'username' => fake()->unique()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('admin'),
-            'role' => fake()->boolean(),
+            'role' => fake()->boolean(false),
             'nrp' => fake()->unique()->randomNumber(5),
             'position' => fake()->randomElement(['Driver', 'GL', 'Manager']),
             'department' => fake()->randomElement(['HCGS', 'IT', 'HR', 'MOD']),
             'password' => Hash::make('admin'),
+            'shift_id' => Shift::pluck('id')->random(),
         ];
     }
 

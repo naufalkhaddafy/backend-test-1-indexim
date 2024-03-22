@@ -53,16 +53,21 @@ class ShiftController extends Controller
             $shift->start_at = $request->start_at;
             $shift->end_at = $request->end_at;
             $shift->description = $request->description;
-            $shift->total_hours = round($total_hours / 3600);
+            $shift->total_hours = abs(round($total_hours / 3600));
             $shift->save();
 
-            return response()->json(
-                [
-                    'status' => 'success',
-                    'data' => $shift,
-                ],
-                200,
-            );
+
+            if (Request()->wantsJson()) {
+                return response()->json(
+                    [
+                        'status' => 'success',
+                        'data' => $shift,
+                    ],
+                    200,
+                );
+            }
+
+            return redirect()->route('shift')->with('success', 'Berhasil menambahkan data shift');
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
         }
@@ -73,7 +78,6 @@ class ShiftController extends Controller
      */
     public function show(Shift $shift)
     {
-
     }
 
     /**

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,14 +12,14 @@
     <title>@yield('title') | Indexim Coalindo</title>
 
     <!-- Custom fonts for this template-->
-    <link href="{{ asset('template-admin')}}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('template-admin') }}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('template-admin')}}/css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link href="{{ asset('template-admin') }}/css/sb-admin-2.min.css" rel="stylesheet">
+    @stack('css')
 </head>
 
 <body id="page-top">
@@ -81,24 +80,26 @@
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form action="{{ route('logout.web') }}" method="post">
+                        @csrf
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="submit">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('template-admin')}}/vendor/jquery/jquery.min.js"></script>
-    <script src="{{asset('template-admin')}}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('template-admin') }}/vendor/jquery/jquery.min.js"></script>
+    <script src="{{ asset('template-admin') }}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{asset('template-admin')}}/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="{{ asset('template-admin') }}/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{asset('template-admin')}}/js/sb-admin-2.min.js"></script>
-
-    
+    <script src="{{ asset('template-admin') }}/js/sb-admin-2.min.js"></script>
+    @stack('js')
 
 </body>
 
