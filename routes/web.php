@@ -19,6 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance', [GroupViewController::class, 'attendance'])->name('attendance');
 
     Route::post('/logout', [AuthController::class, 'logoutWeb'])->name('logout.web');
+
+Route::resource('shift', ShiftController::class, ['only' => ['store', 'update', 'destroy']]);
+
 });
 
 Route::get('/login', [GroupViewController::class, 'login'])->name('login');
@@ -28,4 +31,3 @@ Route::post('/login', [AuthController::class, 'loginWeb'])->name('login.web')->m
 
 
 
-Route::resource('shift', ShiftController::class, ['only' => ['store', 'update', 'destroy']]);

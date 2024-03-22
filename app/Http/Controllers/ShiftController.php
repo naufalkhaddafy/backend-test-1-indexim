@@ -57,7 +57,7 @@ class ShiftController extends Controller
             $shift->save();
 
 
-            if (Request()->wantsJson()) {
+            if (Request()->expectsJson()) {
                 return response()->json(
                     [
                         'status' => 'success',
@@ -65,9 +65,10 @@ class ShiftController extends Controller
                     ],
                     200,
                 );
+            }else{
+                return redirect()->route('shift')->with('success', 'Berhasil menambahkan data shift');
             }
 
-            return redirect()->route('shift')->with('success', 'Berhasil menambahkan data shift');
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
         }
