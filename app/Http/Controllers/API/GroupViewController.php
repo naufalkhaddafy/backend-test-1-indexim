@@ -36,19 +36,6 @@ class GroupViewController extends Controller
         ]);
     }
 
-    public function employeeCreate()
-    {
-        return view('employee.create', [
-            'shifts' => Shift::all(),
-        ]);
-    }
-
-    public function employeeShow(User $user)
-    {
-        return view('employee.show', [
-            'user' => $user,
-        ]);
-    }
 
     public function shift()
     {

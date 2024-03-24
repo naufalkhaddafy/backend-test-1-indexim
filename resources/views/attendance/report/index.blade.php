@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th> Nama (NRP)</th>
                             <th>Tanggal</th>
                             <th>Check In</th>
                             <th>Check Out</th>
@@ -33,6 +34,7 @@
                         @foreach ($attendances as $attendance)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $attendance->user->name }}({{ $attendance->user->nrp }})</td>
                                 <td>{{ $attendance->created_at->format('d F Y') }}</td>
                                 <td>{{ $attendance->start_at }}</td>
                                 <td>{{ $attendance->end_at }}</td>

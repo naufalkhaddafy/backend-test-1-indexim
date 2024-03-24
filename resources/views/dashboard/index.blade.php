@@ -102,7 +102,7 @@
             <h5 class="font-weight-bold mb-3"> Hello, {{ auth()->user()->name }} </h5>
             <div class="text-center">
                 <h1 id="jam"></h1>
-                <h6>{{ date('D,d F Y') }}</h6>
+                <h6>{{ date('D, d F Y') }}</h6>
             </div>
         </div>
         <div class="card">

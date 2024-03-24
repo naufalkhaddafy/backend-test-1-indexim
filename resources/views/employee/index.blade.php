@@ -9,10 +9,16 @@
     <p class="mb-4">
         Data Karyawan Indexim
     </p>
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+        <br>
+    @endif
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Data Karyawan</h6>
-            <button class="btn btn-primary">Tambah Karyawan</button>
+            <h6 class="m-0 font-weight-bold text-primary">Total Karyawan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">{{ count($users) }} Karyawan</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -40,8 +46,9 @@
                                 <td>{{ $user->department }}</td>
                                 <td>{{ $user->position }}</td>
                                 <td>{{ $user->shift->name ?? '' }}</td>
-                                <td>
-                                    <button>Detail</button>
+                                <td align="center">
+                                    <a href="{{ route('employee.show', $user->id) }}" class="btn btn-primary"><i
+                                            class="fa fa-eye"></i></a>
                                 </td>
                             </tr>
                         @endforeach

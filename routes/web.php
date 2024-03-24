@@ -15,19 +15,17 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [GroupViewController::class, 'dashboard'])->name('dashboard');
     Route::get('/employee', [GroupViewController::class, 'employee'])->name('employee');
+    Route::get('/employee/create', [GroupViewController::class, 'employeeCreate'])->name('employee.create');
+    Route::get('/employee/{user}', [GroupViewController::class, 'employeeShow'])->name('employee.show');
+    Route::post('/employee', [AuthController::class, 'register'])->name('employee.store');
     Route::get('/shift', [GroupViewController::class, 'shift'])->name('shift');
     Route::get('/attendance', [GroupViewController::class, 'attendance'])->name('attendance');
 
     Route::post('/logout', [AuthController::class, 'logoutWeb'])->name('logout.web');
 
-Route::resource('shift', ShiftController::class, ['only' => ['store', 'update', 'destroy']]);
-
+    Route::resource('shift', ShiftController::class, ['only' => ['store', 'update', 'destroy']]);
 });
 
 Route::get('/login', [GroupViewController::class, 'login'])->name('login');
 
 Route::post('/login', [AuthController::class, 'loginWeb'])->name('login.web')->middleware('guest');
-
-
-
-

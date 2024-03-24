@@ -119,7 +119,15 @@ class AuthController extends Controller
             'shift_id' => $request->shift_id,
             'password' => Hash::make($request->password)
         ]);
-        return redirect()->route('employee')->with('success', 'Berhasil Menambahkan Data Karyawan ' . $request->name);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()
+            ->json([
+                'status' => 'success',
+                'data' => $user,
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ], 200);
     }
 
     public function update(StoreUserRequest $request, User $user)
