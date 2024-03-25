@@ -16,16 +16,27 @@ class GroupViewController extends Controller
     {
         return view('auth/login');
     }
+
+
+   public function profile(){
+    return view('profile.profile',[
+            'shifts' => Shift::all(),
+
+    ]);
+   }
+
     public function dashboard()
     {
-        $user = auth()->user()->id;
-        $today = date('Y-m-d');
-        $data = Attendance::where('created_at', $today)->get();
+        $user = auth()->user()->attendances;
+        $data = Attendance::whereDay('created_at', now()->day)->get();
+        // $data1 = collect($user)->filter(function($s){
+        //    return where('created_at', now()->day)->get()
+        // });
 
-        // dd($data);
+        //  dd($data);
 
         return view('dashboard.index', [
-            'users' => count(User::where('role', false)->get())
+            'users' => count(User::where('role', false)->get()),
         ]);
     }
 
@@ -47,6 +58,7 @@ class GroupViewController extends Controller
     {
         return view('employee.show', [
             'user' => $user,
+            'attendance' => $user->with('attendances')->get(),
             'shifts' => Shift::all(),
         ]);
     }

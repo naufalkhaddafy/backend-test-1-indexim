@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,13 @@ class AttendanceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::pluck('id')->random(),
+            'start_at' => fake()->time(),
+            'end_at' => fake()->time(),
+            'description' =>fake()->randomElement(['Hadir', 'Izin', 'Sakit', 'Tidak Hadir']),
+            'total_primary' => fake()->randomNumber(1),
+            'total_overtime' => fake()->randomNumber(1),
+
         ];
     }
 }

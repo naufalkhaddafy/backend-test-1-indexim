@@ -101,6 +101,7 @@
     <div class="card shadow p-4 col-6 rounded-xl bg-primary">
         <div class="text-white text">
             <h5 class="font-weight-bold mb-3"> Hello, {{ auth()->user()->name }} </h5>
+            <h7 class="mb-3"> Jangan Lupa Absen hari ini.</h7>
             <div class="text-center">
                 <h1 id="jam"></h1>
                 <h6>{{ date('D, d F Y') }}</h6>

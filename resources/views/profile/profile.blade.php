@@ -1,22 +1,16 @@
 @extends('template.index')
 @section('title')
-    Profile {{ $user->name }}
+    Profile {{ auth()->user()->name }}
 @endsection
 @push('css')
-    <link href="{{ asset('template-admin') }}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
-    <h1 class="h3 mb-2 text-gray-800">Profile Karyawan {{ $user->name }} </h1>
+    <h1 class="h3 mb-2 text-gray-800">Profile Karyawan {{ auth()->user()->name }} </h1>
     <p class="mb-4">
         Profile karyawan mengenai data pribadi, kinerja, riwayat pekerjaan, dan absensi
     </p>
-    @if (session('success'))
-        <div class="alert alert-success" role="alert">
-            {{ session('success') }}
-        </div>
-        <br>
-    @endif
+
     <div class="row">
         <div class="col-4">
             <div class="card p-4 w-full">
@@ -25,7 +19,7 @@
                         style="height: 250px; width:250px" alt="...">
                 </div>
                 <div class="text-center mb-3">
-                    <h2 class="font-weight-bold"> {{ $user->name }}</h2>
+                    <h2 class="font-weight-bold"> {{auth()->user()->name }}</h2>
                     {{-- <p>Leader :</p>
                     <p>{{$user->leaders ?? ''}}</p> --}}
                 </div>
@@ -66,13 +60,13 @@
                     <div class="tab-content p-0">
                         <div class="chart tab-pane active" id="settings">
                             <span class="text-danger font-weight-bold mb-4">Informasi Pribadi </span>
-                            <form action="{{route('employee.update',$user->id)}}" method="POST" type="multipart/form-data">
-                                 @method('PATCH')
+
+                            <form action="{{ route('employee.store') }}" method="POST" type="multipart/form-data">
                                 @csrf
                                 <div class="mb-3 mt-4">
                                     <label for="name" class="form-label">Name</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        id="name" name="name" value="{{ $user->name }}">
+                                        id="name" name="name" value="{{ auth()->user()->name }}">
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -82,7 +76,7 @@
                                 <div class="mb-3">
                                     <label for="nrp" class="form-label">NRP</label>
                                     <input type="text" class="form-control  @error('nrp') is-invalid @enderror"
-                                        id="nrp" name="nrp" value="{{ $user->nrp }}">
+                                        id="nrp" name="nrp" value="{{ auth()->user()->nrp }}">
                                     @error('nrp')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -92,7 +86,7 @@
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control  @error('email') is-invalid @enderror"
-                                        id="email" name="email" value="{{ $user->email }}">
+                                        id="email" name="email" value="{{ auth()->user()->email }}">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -104,7 +98,7 @@
                                         <label for="department" class="form-label">Department</label>
                                         <input type="input" name="department"
                                             class="form-control  @error('department') is-invalid @enderror" id="department"
-                                            value="{{ $user->department }}">
+                                            value="{{ auth()->user()->department }}">
                                         @error('department')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -115,7 +109,7 @@
                                         <label for="position" class="form-label">Position</label>
                                         <input type="input"
                                             name="position"class="form-control @error('position') is-invalid @enderror"
-                                            id="position" value="{{ $user->position }}">
+                                            id="position" value="{{ auth()->user()->position }}">
                                         @error('position')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -131,7 +125,7 @@
                                         <option value="">--- Pilih Shift ---</option>
                                         @foreach ($shifts as $shift)
                                             <option value="{{ $shift->id }}"
-                                                {{ $user->shift_id == $shift->id ? 'selected' : '' }}>{{ $shift->name }}
+                                                {{ auth()->user()->shift_id == $shift->id ? 'selected' : '' }}>{{ $shift->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -145,7 +139,7 @@
                                 <div class="mb-3 mt-3">
                                     <label for="username" class="form-label">Username</label>
                                     <input type="text" class="form-control  @error('username') is-invalid @enderror"
-                                        id="username" name="username" value="{{ $user->username }}" readonly>
+                                        id="username" name="username" value="{{ auth()->user()->username }}" readonly>
                                     @error('username')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -174,37 +168,7 @@
                             Riwayat Kerja
                         </div>
                         <div class="chart tab-pane" id="attendance">
-                            <h4 class="mb-3">Absensi</h4>
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Tanggal</th>
-                                            <th>Check In</th>
-                                            <th>Check Out</th>
-                                            <th>Deskripsi</th>
-                                            <th>Total Primary</th>
-                                            <th>Total Overtime</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @foreach ($user->attendances as $attendance)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $attendance->created_at->format('d F Y') }}</td>
-                                                <td>{{ $attendance->start_at }}</td>
-                                                <td>{{ $attendance->end_at }}</td>
-                                                <td>{{ $attendance->description }}</td>
-                                                <td>{{ $attendance->total_primary }}</td>
-                                                <td>{{ $attendance->total_overtime }}</td>
-                                            </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            Absensi
                         </div>
                         <div class="chart tab-pane" id="anggota">
                             bawahan
@@ -217,9 +181,4 @@
 @endsection
 
 @push('js')
-    <!-- Page level plugins -->
-    <script src="{{ asset('template-admin') }}/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('template-admin') }}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('template-admin') }}/js/demo/datatables-demo.js"></script>
 @endpush

@@ -56,6 +56,25 @@
         </div>
     </li>
 
+     <!-- Tasks -->
+    <li class="nav-item  {{ in_array(Route::currentRouteName(), ['shift', 'attendance']) ? 'active' : '' }}">
+        <a class="nav-link {{ in_array(Route::currentRouteName(), ['shift', 'attendance']) ? '' : 'collapsed' }}"
+            href="#" data-toggle="collapse" data-target="#collapseTasks" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fa fa-tasks"></i>
+            <span>Tasks</span>
+        </a>
+        <div id="collapseTasks"
+            class="collapse {{ in_array(Route::currentRouteName(), ['shift', 'attendance']) ? 'show' : '' }}"
+            aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item  {{ in_array(Route::currentRouteName(), ['shift']) ? 'active' : '' }}"
+                    href="{{ route('shift') }}">Shift</a>
+                <a class="collapse-item  {{ in_array(Route::currentRouteName(), ['attendance']) ? 'active' : '' }}"
+                    href="{{ route('attendance') }}">Report Attendance</a>
+            </div>
+        </div>
+    </li>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->
