@@ -11,6 +11,7 @@
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div>
 
+    @if (auth()->user()->role)
     <!-- Content Row -->
     <div class="row">
         <!-- Earnings (Monthly) Card Example -->
@@ -95,8 +96,8 @@
             </div>
         </div>
     </div>
-
-    {{-- Card --}}
+    @else
+{{-- Card --}}
     <div class="card shadow p-4 col-6 rounded-xl bg-primary">
         <div class="text-white text">
             <h5 class="font-weight-bold mb-3"> Hello, {{ auth()->user()->name }} </h5>
@@ -122,6 +123,7 @@
             </div>
         </div>
     </div>
+    @endif
 @endsection
 @push('js')
     <script type="text/javascript">

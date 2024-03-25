@@ -47,6 +47,7 @@ class GroupViewController extends Controller
     {
         return view('employee.show', [
             'user' => $user,
+            'shifts' => Shift::all(),
         ]);
     }
 
